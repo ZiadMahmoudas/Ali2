@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FIT-FedEx Import Tool</title>
+    <title>FIT - Clearance Usps</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -167,7 +167,282 @@
       letter-spacing: .5px;
       color: #2b2b2b;
     }
+  .topbar {
+        padding-block: 90px;
+      background: var(--purple);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 44px;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, .12);
+    }
 
+    .brand {
+        width: 18%;
+        height: 100%;
+      user-select: none;
+    }
+
+    .brand img {
+        width: 50%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 27px;
+      margin-left: auto;
+      margin-right: 245px;
+    }
+
+    .nav-link {
+      text-decoration: none;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: 0;
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      height: 46px;
+      opacity: .98;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .avatar-icon, .top-search {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: inline-grid;
+      place-items: center;
+    }
+
+    .avatar-icon {
+      border: 2px solid var(--white);
+    }
+
+    .top-search {
+      font-size: 19px;
+    }
+
+    .titlebar {
+      height: 48px;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 44px;
+      border-bottom: 1px solid var(--soft-border);
+    }
+
+    .titlebar h1 {
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .title-icons {
+      display: flex;
+      align-items: center;
+      gap: 17px;
+      color: var(--blue);
+      font-size: 20px;
+    }
+
+    .status-grid {
+      background: var(--white);
+      padding: 16px 44px 20px;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(165px, 1fr));
+      gap: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .status-card {
+      height: 54px;
+      background: #fbfbfb;
+      border: 0;
+      border-bottom: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 0 18px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .24s var(--ease), background .24s var(--ease), box-shadow .24s var(--ease), border-color .24s var(--ease);
+    }
+
+    .status-card:hover {
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+      transform: translateY(-1px);
+    }
+
+    .status-card.active {
+      background: var(--white);
+      border-bottom-color: var(--purple);
+    }
+
+    .status-card.is-loading::after {
+      content: "";
+      position: absolute;
+      left: -40%;
+      bottom: 0;
+      height: 2px;
+      width: 40%;
+      background: var(--orange);
+      animation: tabProgress .75s var(--ease) forwards;
+    }
+
+    @keyframes tabProgress {
+      100% { left: 100%; }
+    }
+
+    .status-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      border: 2px solid currentColor;
+      font-size: 13px;
+      flex: 0 0 auto;
+    }
+
+    .status-icon.box {
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    .status-copy {
+      text-align: left;
+      line-height: 1.05;
+    }
+
+    .status-copy strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+
+    .status-copy span {
+      display: block;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .15px;
+      text-transform: uppercase;
+    }
+
+    .purple { color: var(--purple); }
+    .red { color: var(--red); }
+    .green { color: var(--green); }
+
+    .toolbar {
+      height: 48px;
+      background: var(--white);
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 5;
+    }
+
+    .toolbar-left, .toolbar-right {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .viewing-box {
+      width: 160px;
+      border-right: 1px solid var(--border);
+      padding: 9px 26px;
+      line-height: 1.05;
+    }
+
+    .viewing-box small {
+      display: block;
+      color: #7d7d7d;
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .viewing-box strong {
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .search-wrap {
+      position: relative;
+      width: 425px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 18px;
+      border-right: 1px solid var(--border);
+      color: #656565;
+      background: var(--white);
+    }
+
+    .search-wrap i {
+      font-size: 16px;
+      color: #2f3a40;
+    }
+
+    .search-wrap input {
+      border: 0;
+      outline: 0;
+      width: 100%;
+      font-size: 12px;
+      font-style: italic;
+      color: #444;
+    }
+
+    .toolbar-btn {
+      min-width: 124px;
+      height: 100%;
+      background: var(--white);
+      border: 0;
+      border-left: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #111;
+      transition: background .18s var(--ease), color .18s var(--ease);
+    }
+
+    .toolbar-btn:hover,
+    .toolbar-btn.active {
+      background: #fbfbfb;
+      color: var(--purple);
+    }
+
+    .toolbar-btn i {
+      font-size: 14px;
+      color: currentColor;
+    }
     .paid-pill {
       min-height: 28px;
       padding: 5px 13px;
@@ -502,10 +777,243 @@
       line-height: 1.8;
     }
 
-    .footer {
+   .footer {
       background: #f4f4f4;
       padding-top: 30px;
       direction: ltr;
+    }
+  .custom-select {
+      position: relative;
+    }
+
+    .select-trigger {
+      min-width: 58px;
+      height: 30px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: currentColor;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 4px;
+      transition: background .18s var(--ease), border-color .18s var(--ease);
+    }
+
+    .select-trigger:hover,
+    .custom-select.open .select-trigger {
+      background: #fff;
+      border-color: #d6d6d6;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .select-menu {
+      position: absolute;
+      right: 0;
+      bottom: calc(100% + 8px);
+      width: 110px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px) scale(.98);
+      transform-origin: bottom right;
+      transition: opacity .2s var(--ease), transform .2s var(--ease), visibility .2s var(--ease);
+      z-index: 50;
+      padding: 5px 0;
+    }
+
+    .custom-select.open .select-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+
+    .select-menu button {
+      width: 100%;
+      height: 32px;
+      border: 0;
+      background: #fff;
+      text-align: left;
+      padding: 0 12px;
+      font-size: 12px;
+      color: #444;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .select-menu button:hover,
+    .select-menu button.active {
+      background: #f4f0f8;
+      color: var(--purple);
+      font-weight: 800;
+    }
+
+    .popup {
+      position: absolute;
+      background: var(--white);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px) scale(.98);
+      transform-origin: top right;
+      transition: opacity .22s var(--ease), transform .22s var(--ease), visibility .22s var(--ease);
+      z-index: 30;
+    }
+
+    .popup.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+
+    .search-popover {
+      top: 48px;
+      left: 0;
+      width: 260px;
+      padding: 8px 0 0;
+      transform-origin: top left;
+    }
+
+    .search-popover .quick-search {
+      height: 38px;
+      margin: 0 10px 8px;
+      border: 1px solid #d2d2d2;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 10px;
+      color: #333;
+    }
+
+    .search-popover .quick-search input {
+      font-style: italic;
+      font-size: 11px;
+    }
+
+    .no-result {
+      height: 28px;
+      padding: 0 10px;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      color: #464646;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .filter-popover {
+      width: 250px;
+      padding: 13px 14px 14px;
+    }
+
+    .filter-popover h4 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      margin-bottom: 10px;
+      color: #2f2f2f;
+    }
+
+    .filter-field {
+      height: 34px;
+      border: 1px solid #d9d9d9;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 10px;
+      margin-bottom: 12px;
+      color: #777;
+    }
+
+    .filter-field input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      font-size: 12px;
+    }
+
+    .filter-options {
+      max-height: 120px;
+      overflow: auto;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      padding: 6px 0;
+      display: grid;
+      gap: 2px;
+    }
+
+    .check-row,
+    .radio-row {
+      min-height: 28px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #333;
+      cursor: pointer;
+    }
+
+    input[type="checkbox"], input[type="radio"] {
+      accent-color: var(--blue);
+    }
+
+    .filter-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .link-btn {
+      background: transparent;
+      border: 0;
+      color: var(--blue);
+      text-transform: uppercase;
+      font-size: 11px;
+      font-weight: 900;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .outline-btn {
+      min-width: 116px;
+      height: 36px;
+      border-radius: 21px;
+      border: 2px solid var(--blue);
+      background: var(--white);
+      color: var(--blue);
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 900;
+      letter-spacing: 1px;
+      transition: background .18s var(--ease), color .18s var(--ease), opacity .18s var(--ease);
+    }
+
+    .outline-btn:hover:not(:disabled) {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .outline-btn:disabled {
+      color: #999;
+      border-color: #c8c8c8;
+      opacity: .9;
+      cursor: not-allowed;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .16);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .22s var(--ease), visibility .22s var(--ease);
+      z-index: 100;
     }
 
     .footer-grid {
@@ -526,10 +1034,54 @@
       margin-bottom: 13px;
     }
 
-    .footer a { display: block; color: #666; text-decoration: none; margin-bottom: 9px; }
-    .footer-divider { max-width: 760px; height: 1px; margin: 26px auto; background: #9b9b9b; }
-    .country-line { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; }
-    .country-line i { color: #333; font-size: 17px; }
+    .footer a {
+      display: block;
+      color: #666;
+      text-decoration: none;
+      margin-bottom: 9px;
+    }
+
+    .footer-divider {
+      max-width: 760px;
+      height: 1px;
+      margin: 26px auto;
+      background: #9b9b9b;
+    }
+
+    .language-select {
+      color: #4e4e4e;
+      width: 152px;
+    }
+
+    .language-select .select-trigger {
+      width: 100%;
+      border: 1px solid #999;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+    }
+
+    .language-select .select-menu {
+      top: calc(100% + 8px);
+      bottom: auto;
+      left: 0;
+      right: auto;
+      width: 100%;
+      transform-origin: top left;
+    }
+
+    .country-line {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 10px;
+    }
+
+    .country-line i {
+      color: #333;
+      font-size: 17px;
+    }
+
     .social-row {
       max-width: 760px;
       margin: 0 auto 28px;
@@ -540,6 +1092,7 @@
       font-size: 10px;
       font-weight: 900;
     }
+
     .social-row span:not(:first-child) {
       width: 18px;
       height: 18px;
@@ -550,8 +1103,9 @@
       color: #333;
       font-size: 8px;
     }
+
     .footer-bottom {
-      min-height: 42px;
+      height: 42px;
       background: var(--purple);
       color: #fff;
       display: flex;
@@ -559,8 +1113,6 @@
       justify-content: center;
       gap: 28px;
       font-size: 10px;
-      flex-wrap: wrap;
-      padding: 10px 14px;
     }
 
     @media (max-width: 980px) {
@@ -587,35 +1139,27 @@
   </head>
   <body>
     <div class="app">
-      <header class="topbar">
-        <a href="index.html" class="brand" aria-label="Home"><span
-            class="fed">Fed</span><span class="ex">Ex</span><small>•</small></a>
-        <nav class="nav">
-          <a class="nav-btn active" href="shipping.html">Shipping <i
-              class="fa-solid fa-chevron-down"></i></a>
-          <button class="nav-btn" data-url="https://www.usps.com">Tracking <i
-              class="fa-solid fa-chevron-down"></i></button>
-          <button class="nav-btn" data-url="https://www.usps.com">Design & Print
-            <i class="fa-solid fa-chevron-down"></i></button>
-          <button class="nav-btn" data-url="https://www.usps.com">Locations <i
-              class="fa-solid fa-chevron-down"></i></button>
-          <button class="nav-btn" data-url="https://www.usps.com">Support <i
-              class="fa-solid fa-chevron-down"></i></button>
-        </nav>
-        <div class="top-actions">
-          <span class="top-search"><i
-              class="fa-solid fa-magnifying-glass"></i></span>
-          <span class="avatar-icon"><i class="fa-regular fa-user"></i></span>
-          <span>تسجيل الدخول/تسجيل</span>
-        </div>
-      </header>
-
+         <header class="topbar">
+      <a href="index.html" class="brand"><img src="images/image.png" alt=""></a>
+      <nav class="nav">
+        <a class="nav-btn nav-link" href="shipping.html">Shipping <i class="fa-solid fa-chevron-down"></i></a>
+        <button class="nav-btn" data-url="https://www.usps.com">Tracking <i class="fa-solid fa-chevron-down"></i></button>
+        <button class="nav-btn" data-url="https://www.usps.com">Design & Print <i class="fa-solid fa-chevron-down"></i></button>
+        <button class="nav-btn" data-url="https://www.usps.com">Locations <i class="fa-solid fa-chevron-down"></i></button>
+        <button class="nav-btn" data-url="https://www.usps.com">Support <i class="fa-solid fa-chevron-down"></i></button>
+      </nav>
+      <div class="top-actions">
+        <span></span>
+        <span class="avatar-icon"><i class="fa-regular fa-user"></i></span>
+        <span class="top-search"><i class="fa-solid fa-magnifying-glass"></i></span>
+      </div>
+    </header>
       <main class="tool-page">
         <div class="tool-container">
-          <h1 class="tool-title">FIT-FedEx Import Tool <span>(أداة فيديكس
+          <h1 class="tool-title">FIT - Clearance Usps <span>(أداة Usps
               للاستيراد)</span></h1>
 
-          <div class="tracking-row">
+          <div class="tracking-row" style="direction: rtl;">
             <span class="tracking-number">872983122742</span>
             <a href="https://paymob.link/mRDqA">
             <span class="paid-pill"><i class="fa-solid fa-check"></i> ادفع الان
@@ -728,48 +1272,53 @@
       </main>
 
       <footer class="footer">
-        <div class="footer-grid">
-          <div>
-            <h4>Our Company</h4>
-            <a href="https://www.usps.com">About Us</a>
-            <a href="https://www.usps.com">Our Portfolio</a>
-            <a href="https://www.usps.com">Investor Relations</a>
-            <a href="https://www.usps.com">Careers</a>
-            <a href="https://www.usps.com">Transportation Contracting
-              Opportunities</a>
-          </div>
-          <div>
-            <h4>More From Us</h4>
-            <a href="https://www.usps.com">Company Blog</a>
-            <a href="https://www.usps.com">Corporate Responsibility</a>
-            <a href="https://www.usps.com">Newsroom</a>
-            <a href="https://www.usps.com">Contact Us</a>
-          </div>
-          <div>
-            <h4>Language</h4>
-            <div class="country-line"><i
-                class="fa-solid fa-globe"></i><span>Saudi Arabia</span></div>
-            <a href="#">EN English (United States)</a>
+      <div class="footer-grid">
+        <div>
+          <h4>Our Company</h4>
+          <a href="https://www.usps.com">About Us</a>
+          <a href="https://www.usps.com">Our Portfolio</a>
+          <a href="https://www.usps.com">Investor Relations</a>
+          <a href="https://www.usps.com">Careers</a>
+          <a href="https://www.usps.com">Transportation Contracting Opportunities</a>
+        </div>
+        <div>
+          <h4>More From Us</h4>
+          <a href="https://www.usps.com">Company Blog</a>
+          <a href="https://www.usps.com">Corporate Responsibility</a>
+          <a href="https://www.usps.com">Newsroom</a>
+          <a href="https://www.usps.com">Contact Us</a>
+        </div>
+        <div>
+          <h4>Language</h4>
+          <div class="country-line"><i class="fa-solid fa-globe"></i><span>United States</span></div>
+          <div class="custom-select language-select" data-select="language">
+            <button class="select-trigger"><span data-value>English</span><i class="fa-solid fa-chevron-down"></i></button>
+            <div class="select-menu">
+              <button data-option="English" class="active">English <i class="fa-solid fa-check"></i></button>
+              <button data-option="Arabic">Arabic</button>
+              <button data-option="French">French</button>
+            </div>
           </div>
         </div>
-        <div class="footer-divider"></div>
-        <div class="social-row">
-          <span>FOLLOW US</span>
-          <span><i class="fa-brands fa-facebook-f"></i></span>
-          <span><i class="fa-brands fa-x-twitter"></i></span>
-          <span><i class="fa-brands fa-linkedin-in"></i></span>
-          <span><i class="fa-brands fa-youtube"></i></span>
-          <span><i class="fa-brands fa-instagram"></i></span>
-        </div>
-        <div class="footer-bottom">
-          <span>© Demo 1995-2026</span>
-          <span>Site Map</span>
-          <span>Cookies</span>
-          <span>Terms of Use</span>
-          <span>Privacy & Security</span>
-          <span>Ad Choices</span>
-        </div>
-      </footer>
+      </div>
+      <div class="footer-divider"></div>
+      <div class="social-row">
+        <span>FOLLOW US</span>
+        <span><i class="fa-brands fa-facebook-f"></i></span>
+        <span><i class="fa-brands fa-x-twitter"></i></span>
+        <span><i class="fa-brands fa-linkedin-in"></i></span>
+        <span><i class="fa-brands fa-youtube"></i></span>
+        <span><i class="fa-brands fa-instagram"></i></span>
+      </div>
+      <div class="footer-bottom">
+        <span>© Demo 1995-2026</span>
+        <span>Site Map</span>
+        <span>Cookies</span>
+        <span>Terms of Use</span>
+        <span>Privacy & Security</span>
+        <span>Ad Choices</span>
+      </div>
+    </footer>
     </div>
 
     <script>
@@ -840,6 +1389,67 @@
 });
   </script>
   <script>
+
+  // تشغيل Dropdown اللغة في الفوتر: English / Arabic / French
+  document.querySelectorAll(".custom-select").forEach(function (select) {
+    const trigger = select.querySelector(".select-trigger");
+    const valueEl = select.querySelector("[data-value]");
+
+    if (!trigger || !valueEl) return;
+
+    trigger.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const isOpen = select.classList.contains("open");
+      document.querySelectorAll(".custom-select.open").forEach(function (opened) {
+        if (opened !== select) opened.classList.remove("open");
+      });
+
+      select.classList.toggle("open", !isOpen);
+    });
+
+    select.querySelectorAll("[data-option]").forEach(function (option) {
+      option.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const selectedText = option.dataset.option || option.textContent.trim();
+        valueEl.textContent = selectedText;
+
+        select.querySelectorAll("[data-option]").forEach(function (item) {
+          item.classList.remove("active");
+          const oldIcon = item.querySelector("i.fa-check");
+          if (oldIcon) oldIcon.remove();
+        });
+
+        option.classList.add("active");
+        if (!option.querySelector("i.fa-check")) {
+          option.insertAdjacentHTML("beforeend", " <i class='fa-solid fa-check'></i>");
+        }
+
+        select.classList.remove("open");
+      });
+    });
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest(".custom-select")) {
+      document.querySelectorAll(".custom-select.open").forEach(function (select) {
+        select.classList.remove("open");
+      });
+    }
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      document.querySelectorAll(".custom-select.open").forEach(function (select) {
+        select.classList.remove("open");
+      });
+    }
+  });
+</script>
+<script>
 
 (function() {
     'use strict';
