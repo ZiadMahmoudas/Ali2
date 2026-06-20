@@ -1,0 +1,2053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Import Tool Dashboard Pro</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --purple: #4d148c;
+      --purple-dark: #3b0b72;
+      --orange: #ff6600;
+      --blue: #0078bd;
+      --red: #e4002b;
+      --green: #009b3a;
+      --border: #dedede;
+      --soft-border: #ededed;
+      --text: #202124;
+      --muted: #747474;
+      --bg: #f6f6f6;
+      --white: #fff;
+      --shadow-sm: 0 2px 6px rgba(0, 0, 0, .08);
+      --shadow-md: 0 8px 28px rgba(0, 0, 0, .16);
+      --ease: cubic-bezier(.2, .8, .2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      min-height: 100%;
+    }
+
+    body {
+      font-family: "Inter", Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto auto auto auto 1fr auto;
+    }
+
+    .topbar {
+      height: 46px;
+      background: var(--purple);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 44px;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, .12);
+    }
+
+    .brand {
+      font-size: 21px;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -1px;
+      user-select: none;
+    }
+
+    .brand span {
+      color: var(--orange);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 27px;
+      margin-left: auto;
+      margin-right: 245px;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: 0;
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      height: 46px;
+      opacity: .98;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .avatar-icon, .top-search {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: inline-grid;
+      place-items: center;
+    }
+
+    .avatar-icon {
+      border: 2px solid var(--white);
+    }
+
+    .top-search {
+      font-size: 19px;
+    }
+
+    .titlebar {
+      height: 48px;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 44px;
+      border-bottom: 1px solid var(--soft-border);
+    }
+
+    .titlebar h1 {
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .title-icons {
+      display: flex;
+      align-items: center;
+      gap: 17px;
+      color: var(--blue);
+      font-size: 20px;
+    }
+
+    .status-grid {
+      background: var(--white);
+      padding: 16px 44px 20px;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(165px, 1fr));
+      gap: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .status-card {
+      height: 54px;
+      background: #fbfbfb;
+      border: 0;
+      border-bottom: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 0 18px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .24s var(--ease), background .24s var(--ease), box-shadow .24s var(--ease), border-color .24s var(--ease);
+    }
+
+    .status-card:hover {
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+      transform: translateY(-1px);
+    }
+
+    .status-card.active {
+      background: var(--white);
+      border-bottom-color: var(--purple);
+    }
+
+    .status-card.is-loading::after {
+      content: "";
+      position: absolute;
+      left: -40%;
+      bottom: 0;
+      height: 2px;
+      width: 40%;
+      background: var(--orange);
+      animation: tabProgress .75s var(--ease) forwards;
+    }
+
+    @keyframes tabProgress {
+      100% { left: 100%; }
+    }
+
+    .status-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      border: 2px solid currentColor;
+      font-size: 13px;
+      flex: 0 0 auto;
+    }
+
+    .status-icon.box {
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    .status-copy {
+      text-align: left;
+      line-height: 1.05;
+    }
+
+    .status-copy strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+
+    .status-copy span {
+      display: block;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .15px;
+      text-transform: uppercase;
+    }
+
+    .purple { color: var(--purple); }
+    .red { color: var(--red); }
+    .green { color: var(--green); }
+
+    .toolbar {
+      height: 48px;
+      background: var(--white);
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 5;
+    }
+
+    .toolbar-left, .toolbar-right {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .viewing-box {
+      width: 160px;
+      border-right: 1px solid var(--border);
+      padding: 9px 26px;
+      line-height: 1.05;
+    }
+
+    .viewing-box small {
+      display: block;
+      color: #7d7d7d;
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .viewing-box strong {
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .search-wrap {
+      position: relative;
+      width: 425px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 18px;
+      border-right: 1px solid var(--border);
+      color: #656565;
+      background: var(--white);
+    }
+
+    .search-wrap i {
+      font-size: 16px;
+      color: #2f3a40;
+    }
+
+    .search-wrap input {
+      border: 0;
+      outline: 0;
+      width: 100%;
+      font-size: 12px;
+      font-style: italic;
+      color: #444;
+    }
+
+    .toolbar-btn {
+      min-width: 124px;
+      height: 100%;
+      background: var(--white);
+      border: 0;
+      border-left: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #111;
+      transition: background .18s var(--ease), color .18s var(--ease);
+    }
+
+    .toolbar-btn:hover,
+    .toolbar-btn.active {
+      background: #fbfbfb;
+      color: var(--purple);
+    }
+
+    .toolbar-btn i {
+      font-size: 14px;
+      color: currentColor;
+    }
+
+    .table-panel {
+      min-height: 340px;
+      background: var(--white);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, .16);
+      position: relative;
+      overflow: visible;
+    }
+
+    .table-scroller {
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+
+    table {
+      width: 100%;
+      min-width: 1160px;
+      border-collapse: collapse;
+    }
+
+    thead tr {
+      height: 34px;
+      border-bottom: 1px solid var(--soft-border);
+    }
+
+    th {
+      position: relative;
+      text-align: left;
+      padding: 0 18px;
+      white-space: nowrap;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #2b2b2b;
+    }
+
+    th .th-content {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .filter-btn {
+      width: 19px;
+      height: 19px;
+      display: inline-grid;
+      place-items: center;
+      background: transparent;
+      border: 0;
+      color: var(--blue);
+      font-size: 11px;
+      border-radius: 2px;
+      transition: background .16s var(--ease), transform .16s var(--ease);
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: #edf7fd;
+      transform: translateY(-1px);
+    }
+
+    tbody tr {
+      height: 44px;
+      border-bottom: 1px solid var(--soft-border);
+    }
+
+    td {
+      padding: 0 18px;
+      font-size: 12px;
+      color: #333;
+    }
+
+    .empty-state {
+      height: 230px;
+      display: grid;
+      place-items: center;
+      color: var(--purple);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .table-loader {
+      position: absolute;
+      inset: 34px 0 58px;
+      background: rgba(255, 255, 255, .84);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .22s var(--ease), visibility .22s var(--ease);
+      z-index: 3;
+    }
+
+    .table-loader.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .spinner {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 4px solid #eeeeee;
+      border-top-color: var(--orange);
+      animation: spin .75s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .pagination-row {
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      color: var(--purple);
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .items-select {
+      position: absolute;
+      right: 38px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--purple);
+    }
+
+    .custom-select {
+      position: relative;
+    }
+
+    .select-trigger {
+      min-width: 58px;
+      height: 30px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: currentColor;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 4px;
+      transition: background .18s var(--ease), border-color .18s var(--ease);
+    }
+
+    .select-trigger:hover,
+    .custom-select.open .select-trigger {
+      background: #fff;
+      border-color: #d6d6d6;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .select-menu {
+      position: absolute;
+      right: 0;
+      bottom: calc(100% + 8px);
+      width: 110px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px) scale(.98);
+      transform-origin: bottom right;
+      transition: opacity .2s var(--ease), transform .2s var(--ease), visibility .2s var(--ease);
+      z-index: 50;
+      padding: 5px 0;
+    }
+
+    .custom-select.open .select-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+
+    .select-menu button {
+      width: 100%;
+      height: 32px;
+      border: 0;
+      background: #fff;
+      text-align: left;
+      padding: 0 12px;
+      font-size: 12px;
+      color: #444;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .select-menu button:hover,
+    .select-menu button.active {
+      background: #f4f0f8;
+      color: var(--purple);
+      font-weight: 800;
+    }
+
+    .popup {
+      position: absolute;
+      background: var(--white);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px) scale(.98);
+      transform-origin: top right;
+      transition: opacity .22s var(--ease), transform .22s var(--ease), visibility .22s var(--ease);
+      z-index: 30;
+    }
+
+    .popup.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+
+    .search-popover {
+      top: 48px;
+      left: 0;
+      width: 260px;
+      padding: 8px 0 0;
+      transform-origin: top left;
+    }
+
+    .search-popover .quick-search {
+      height: 38px;
+      margin: 0 10px 8px;
+      border: 1px solid #d2d2d2;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 10px;
+      color: #333;
+    }
+
+    .search-popover .quick-search input {
+      font-style: italic;
+      font-size: 11px;
+    }
+
+    .no-result {
+      height: 28px;
+      padding: 0 10px;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      color: #464646;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .filter-popover {
+      width: 250px;
+      padding: 13px 14px 14px;
+    }
+
+    .filter-popover h4 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      margin-bottom: 10px;
+      color: #2f2f2f;
+    }
+
+    .filter-field {
+      height: 34px;
+      border: 1px solid #d9d9d9;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 10px;
+      margin-bottom: 12px;
+      color: #777;
+    }
+
+    .filter-field input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      font-size: 12px;
+    }
+
+    .filter-options {
+      max-height: 120px;
+      overflow: auto;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      padding: 6px 0;
+      display: grid;
+      gap: 2px;
+    }
+
+    .check-row,
+    .radio-row {
+      min-height: 28px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #333;
+      cursor: pointer;
+    }
+
+    input[type="checkbox"], input[type="radio"] {
+      accent-color: var(--blue);
+    }
+
+    .filter-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .link-btn {
+      background: transparent;
+      border: 0;
+      color: var(--blue);
+      text-transform: uppercase;
+      font-size: 11px;
+      font-weight: 900;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .outline-btn {
+      min-width: 116px;
+      height: 36px;
+      border-radius: 21px;
+      border: 2px solid var(--blue);
+      background: var(--white);
+      color: var(--blue);
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 900;
+      letter-spacing: 1px;
+      transition: background .18s var(--ease), color .18s var(--ease), opacity .18s var(--ease);
+    }
+
+    .outline-btn:hover:not(:disabled) {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .outline-btn:disabled {
+      color: #999;
+      border-color: #c8c8c8;
+      opacity: .9;
+      cursor: not-allowed;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .16);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .22s var(--ease), visibility .22s var(--ease);
+      z-index: 100;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .dialog {
+      position: fixed;
+      background: var(--white);
+      box-shadow: var(--shadow-md);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(18px) scale(.985);
+      transition: opacity .24s var(--ease), transform .24s var(--ease), visibility .24s var(--ease);
+      z-index: 110;
+    }
+
+    .dialog.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+
+    .download-dialog {
+      top: 164px;
+      right: 84px;
+      width: 352px;
+      min-height: 420px;
+      padding: 24px 25px 16px;
+    }
+
+    .manage-dialog {
+      top: 136px;
+      right: 36px;
+      width: 352px;
+      min-height: 438px;
+      padding: 18px 20px 16px;
+    }
+
+    .dialog-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .dialog-title {
+      font-size: 20px;
+      font-weight: 400;
+      color: #4a4a4a;
+    }
+
+    .manage-dialog .dialog-title {
+      font-size: 15px;
+    }
+
+    .close-btn {
+      width: 28px;
+      height: 28px;
+      border: 0;
+      background: transparent;
+      color: #777;
+      font-size: 15px;
+      display: grid;
+      place-items: center;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #3f3f3f;
+      margin-bottom: 24px;
+      margin-top: 9px;
+    }
+
+    .radio-list {
+      margin-bottom: 18px;
+    }
+
+    .radio-card {
+      height: 29px;
+      border-bottom: 1px solid #d7d7d7;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #444;
+    }
+
+    .radio-card:first-child {
+      border-top: 0;
+    }
+
+    .dialog-actions {
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 22px;
+    }
+
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 14px;
+    }
+
+    .tab-btn {
+      width: 50%;
+      height: 32px;
+      border: 0;
+      background: #fff;
+      color: #3f3f3f;
+      font-size: 10px;
+      font-weight: 800;
+      position: relative;
+    }
+
+    .tab-btn.active {
+      color: var(--purple);
+    }
+
+    .tab-btn.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      height: 2px;
+      background: var(--purple);
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+      animation: panelIn .2s var(--ease) both;
+    }
+
+    @keyframes panelIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .manage-subhead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .columns-list {
+      height: 238px;
+      overflow-y: auto;
+      padding-right: 6px;
+      display: grid;
+      gap: 2px;
+      scrollbar-width: thin;
+    }
+
+    .column-item {
+      min-height: 22px;
+      display: grid;
+      grid-template-columns: 18px 1fr 20px;
+      align-items: center;
+      gap: 4px;
+      background: #f8f8f8;
+      border: 1px solid #e2e2e2;
+      padding: 0 4px;
+      font-size: 10px;
+    }
+
+    .drag-handle {
+      color: #aaa;
+      font-size: 10px;
+      text-align: right;
+    }
+
+    .manage-actions {
+      height: 42px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .saved-view-card {
+      height: 38px;
+      border-bottom: 1px solid #dadada;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #424242;
+    }
+
+    .standard-label {
+      font-size: 9px;
+      font-weight: 900;
+      color: #4d4d4d;
+      text-transform: uppercase;
+      margin: 13px 0 8px;
+    }
+
+    .footer {
+      background: #f4f4f4;
+      padding-top: 30px;
+    }
+
+    .footer-grid {
+      max-width: 760px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 48px;
+      color: #666;
+      font-size: 11px;
+    }
+
+    .footer h4 {
+      color: var(--purple);
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: 13px;
+    }
+
+    .footer a {
+      display: block;
+      color: #666;
+      text-decoration: none;
+      margin-bottom: 9px;
+    }
+
+    .footer-divider {
+      max-width: 760px;
+      height: 1px;
+      margin: 26px auto;
+      background: #9b9b9b;
+    }
+
+    .language-select {
+      color: #4e4e4e;
+      width: 152px;
+    }
+
+    .language-select .select-trigger {
+      width: 100%;
+      border: 1px solid #999;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #fff;
+    }
+
+    .language-select .select-menu {
+      top: calc(100% + 8px);
+      bottom: auto;
+      left: 0;
+      right: auto;
+      width: 100%;
+      transform-origin: top left;
+    }
+
+    .country-line {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 10px;
+    }
+
+    .country-line i {
+      color: #333;
+      font-size: 17px;
+    }
+
+    .social-row {
+      max-width: 760px;
+      margin: 0 auto 28px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--purple);
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .social-row span:not(:first-child) {
+      width: 18px;
+      height: 18px;
+      border: 1px solid #333;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #333;
+      font-size: 8px;
+    }
+
+    .footer-bottom {
+      height: 42px;
+      background: var(--purple);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      font-size: 10px;
+    }
+
+
+    /* ===== Enhanced responsive table polish ===== */
+    .table-panel {
+      margin: 0;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .table-scroller {
+      width: 100%;
+      min-height: 282px;
+      overflow-x: auto;
+      overflow-y: visible;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: #b7b7b7 #f4f4f4;
+    }
+
+    .table-scroller::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .table-scroller::-webkit-scrollbar-track {
+      background: #f4f4f4;
+    }
+
+    .table-scroller::-webkit-scrollbar-thumb {
+      background: #b7b7b7;
+      border-radius: 99px;
+    }
+
+    table {
+      min-width: 1320px;
+      table-layout: auto;
+    }
+
+    thead tr {
+      background: linear-gradient(#fff, #fbfbfb);
+    }
+
+    th {
+      background: #fff;
+      vertical-align: middle;
+    }
+
+    tbody tr {
+      transition: background .18s var(--ease), box-shadow .18s var(--ease);
+    }
+
+    tbody tr:hover {
+      background: #fbf8ff;
+    }
+
+    td {
+      vertical-align: middle;
+      line-height: 1.35;
+    }
+
+    .tracking-no {
+      color: var(--purple);
+      font-weight: 900;
+      letter-spacing: .2px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      min-height: 24px;
+      align-items: center;
+      padding: 0 9px;
+      border-radius: 999px;
+      background: #fff2e9;
+      color: #a84900;
+      border: 1px solid #ffd1b5;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .action-chip {
+      height: 26px;
+      min-width: 54px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 1px solid var(--purple);
+      background: #fff;
+      color: var(--purple);
+      font-size: 11px;
+      font-weight: 900;
+      transition: background .18s var(--ease), color .18s var(--ease), transform .18s var(--ease);
+    }
+
+    .action-chip:hover {
+      background: var(--purple);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .cell-muted {
+      color: #767676;
+    }
+
+    @media (min-width: 981px) {
+      .table-panel {
+        width: 100%;
+      }
+
+      .table-scroller {
+        max-width: 100vw;
+      }
+
+      th:first-child,
+      td:first-child {
+        position: sticky;
+        left: 0;
+        background: inherit;
+        z-index: 2;
+      }
+
+      th:first-child {
+        background: #fff;
+        z-index: 4;
+        box-shadow: 1px 0 0 #eee;
+      }
+
+      td:first-child {
+        background: #fff;
+        box-shadow: 1px 0 0 #f0f0f0;
+      }
+
+      tbody tr:hover td:first-child {
+        background: #fbf8ff;
+      }
+    }
+
+    @media (max-width: 760px) {
+      body {
+        overflow-x: hidden;
+      }
+
+      .app {
+        display: block;
+        min-height: 100vh;
+      }
+
+      .topbar {
+        min-height: 52px;
+        height: auto;
+        padding: 10px 14px;
+        gap: 12px;
+      }
+
+      .brand {
+        font-size: 20px;
+      }
+
+      .top-actions {
+        gap: 12px;
+        margin-left: auto;
+      }
+
+      .titlebar {
+        height: auto;
+        min-height: 52px;
+        padding: 12px 14px;
+      }
+
+      .titlebar h1 {
+        font-size: 14px;
+      }
+
+      .status-grid {
+        display: flex;
+        grid-template-columns: none;
+        overflow-x: auto;
+        gap: 10px;
+        padding: 12px 14px;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: thin;
+      }
+
+      .status-card {
+        min-width: 218px;
+        height: 58px;
+        scroll-snap-align: start;
+        flex: 0 0 auto;
+      }
+
+      .toolbar {
+        height: auto;
+        display: block;
+      }
+
+      .toolbar-left,
+      .toolbar-right {
+        width: 100%;
+        display: grid;
+      }
+
+      .toolbar-left {
+        grid-template-columns: 1fr;
+      }
+
+      .viewing-box {
+        width: 100%;
+        padding: 12px 14px;
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .search-wrap {
+        width: 100%;
+        min-height: 48px;
+        border-right: 0;
+        padding: 0 14px;
+      }
+
+      .toolbar-right {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .toolbar-btn {
+        min-width: 0;
+        height: 44px;
+        border-top: 1px solid var(--border);
+      }
+
+      .table-panel {
+        margin: 10px 10px 16px;
+        border-radius: 12px;
+        overflow: visible;
+        box-shadow: 0 4px 16px rgba(0,0,0,.10);
+      }
+
+      .table-scroller {
+        min-height: auto;
+        overflow: visible;
+      }
+
+      table,
+      tbody,
+      tr,
+      td {
+        display: block;
+        width: 100%;
+        min-width: 0;
+      }
+
+      table {
+        min-width: 0;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tbody {
+        display: grid;
+        gap: 12px;
+        padding: 12px;
+      }
+
+      tbody tr {
+        height: auto;
+        border: 1px solid #e8e8e8;
+        border-radius: 12px;
+        background: #fff;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0,0,0,.05);
+      }
+
+      tbody tr:hover {
+        background: #fff;
+      }
+
+      td {
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 10px 12px;
+        border-bottom: 1px solid #f1f1f1;
+        text-align: right;
+        font-size: 12px;
+      }
+
+      td:last-child {
+        border-bottom: 0;
+      }
+
+      td::before {
+        content: attr(data-label);
+        max-width: 45%;
+        text-align: left;
+        color: #777;
+        font-size: 9px;
+        line-height: 1.25;
+        font-weight: 900;
+        letter-spacing: .45px;
+        text-transform: uppercase;
+      }
+
+      .empty-state {
+        height: 190px;
+        padding: 20px;
+      }
+
+      .table-loader {
+        inset: 0;
+        border-radius: 12px;
+      }
+
+      .pagination-row {
+        height: auto;
+        min-height: 76px;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+        gap: 12px;
+        padding: 12px 14px 16px;
+        text-align: center;
+      }
+
+      .items-select {
+        position: static;
+        justify-content: space-between;
+        width: 100%;
+        margin: 0;
+      }
+
+      .items-select .custom-select {
+        margin-left: auto;
+      }
+
+      .select-menu {
+        bottom: calc(100% + 6px);
+      }
+
+      .download-dialog,
+      .manage-dialog {
+        width: calc(100% - 24px);
+        left: 12px;
+        right: auto;
+        top: 72px;
+        min-height: 0;
+        max-height: calc(100vh - 88px);
+        overflow-y: auto;
+        border-radius: 12px;
+      }
+
+      .dialog-title {
+        font-size: 18px;
+      }
+
+      .columns-list {
+        height: min(260px, 45vh);
+      }
+
+      .search-popover {
+        width: calc(100vw - 28px);
+        left: 0;
+      }
+
+      .filter-popover {
+        position: fixed;
+        left: 12px !important;
+        right: 12px;
+        top: 120px !important;
+        width: auto;
+        transform-origin: top center;
+      }
+    }
+
+    @media (min-width: 761px) and (max-width: 980px) {
+      .status-grid {
+        grid-template-columns: repeat(2, minmax(220px, 1fr));
+      }
+
+      .table-panel {
+        margin: 0 12px 16px;
+        border-radius: 10px;
+      }
+
+      .table-scroller {
+        min-height: 300px;
+      }
+
+      table {
+        min-width: 1280px;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .topbar, .titlebar { padding: 0 16px; }
+      .nav { display: none; }
+      .status-grid { padding: 12px 16px; grid-template-columns: 1fr; gap: 10px; }
+      .toolbar { height: auto; flex-direction: column; }
+      .toolbar-left, .toolbar-right { width: 100%; }
+      .viewing-box { width: 130px; padding-left: 14px; }
+      .search-wrap { width: calc(100% - 130px); }
+      .toolbar-btn { flex: 1; height: 44px; }
+      .download-dialog, .manage-dialog { width: calc(100% - 28px); left: 14px; right: auto; top: 110px; }
+      .items-select { position: static; margin-left: 14px; }
+      .pagination-row { justify-content: space-between; padding: 0 14px; }
+      .footer-grid, .footer-divider, .social-row { width: calc(100% - 32px); max-width: none; grid-template-columns: 1fr; }
+      .footer-bottom { flex-wrap: wrap; height: auto; padding: 13px; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">Ship<span>Go</span>.</div>
+      <nav class="nav">
+        <button class="nav-btn">Shipping <i class="fa-solid fa-chevron-down"></i></button>
+        <button class="nav-btn">Tracking <i class="fa-solid fa-chevron-down"></i></button>
+        <button class="nav-btn">Design & Print <i class="fa-solid fa-chevron-down"></i></button>
+        <button class="nav-btn">Locations <i class="fa-solid fa-chevron-down"></i></button>
+        <button class="nav-btn">Support <i class="fa-solid fa-chevron-down"></i></button>
+      </nav>
+      <div class="top-actions">
+        <span></span>
+        <span class="avatar-icon"><i class="fa-regular fa-user"></i></span>
+        <span class="top-search"><i class="fa-solid fa-magnifying-glass"></i></span>
+      </div>
+    </header>
+
+    <section class="titlebar">
+      <h1>FIT - Import Tool</h1>
+      <div class="title-icons">
+        <i class="fa-regular fa-circle-question"></i>
+        <i class="fa-regular fa-bell"></i>
+      </div>
+    </section>
+
+    <section class="status-grid" id="statusGrid">
+      <button class="status-card" data-tab="in-transit">
+        <span class="status-icon purple"><i class="fa-solid fa-arrow-right"></i></span>
+        <span class="status-copy"><strong>0</strong><span>In Transit</span></span>
+      </button>
+      <button class="status-card" data-tab="missing">
+        <span class="status-icon red"><i class="fa-regular fa-clipboard"></i></span>
+        <span class="status-copy"><strong>0</strong><span>Document Missing</span></span>
+      </button>
+      <button class="status-card" data-tab="payment">
+        <span class="status-icon red"><i class="fa-solid fa-dollar-sign"></i></span>
+        <span class="status-copy"><strong>1</strong><span>Payment Pending</span></span>
+      </button>
+      <button class="status-card" data-tab="cleared">
+        <span class="status-icon green"><i class="fa-solid fa-check"></i></span>
+        <span class="status-copy"><strong>0</strong><span>Customs Cleared</span></span>
+      </button>
+      <button class="status-card active" data-tab="all">
+        <span class="status-icon box purple"><i class="fa-solid fa-cube"></i></span>
+        <span class="status-copy"><strong>1</strong><span>All Shipments</span></span>
+      </button>
+    </section>
+
+    <section class="toolbar">
+      <div class="toolbar-left">
+        <div class="viewing-box">
+          <small>Viewing</small>
+          <strong id="viewText">1/1 Shipments</strong>
+        </div>
+        <div class="search-wrap" id="searchWrap">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input id="trackingSearch" type="text" placeholder="Search by tracking number (min. 3 digit)" autocomplete="off" />
+          <div class="popup search-popover" id="searchPopover">
+            <div class="quick-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input id="popoverSearch" type="text" placeholder="Search by Tracking number" />
+            </div>
+            <div class="no-result" id="searchResultText">No result found</div>
+          </div>
+        </div>
+      </div>
+      <div class="toolbar-right">
+        <button class="toolbar-btn" id="downloadBtn"><i class="fa-solid fa-download"></i> Download</button>
+        <button class="toolbar-btn" id="manageBtn"><i class="fa-solid fa-sliders"></i> Manage View</button>
+      </div>
+    </section>
+
+    <main class="table-panel" id="tablePanel">
+      <div class="table-loader" id="tableLoader"><div class="spinner"></div></div>
+      <div class="table-scroller">
+        <table>
+          <thead>
+            <tr id="theadRow"></tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+      <div class="empty-state" id="emptyState">No record found.</div>
+      <div class="pagination-row">
+        <span id="paginationText">Showing items 1 - 1 of 1</span>
+        <div class="items-select">
+          <span>Items per page :</span>
+          <div class="custom-select" data-select="perPage">
+            <button class="select-trigger"><span data-value>10</span><i class="fa-solid fa-chevron-down"></i></button>
+            <div class="select-menu">
+              <button data-option="5">5</button>
+              <button data-option="10" class="active">10 <i class="fa-solid fa-check"></i></button>
+              <button data-option="25">25</button>
+              <button data-option="50">50</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-grid">
+        <div>
+          <h4>Our Company</h4>
+          <a href="#">About Us</a>
+          <a href="#">Our Portfolio</a>
+          <a href="#">Investor Relations</a>
+          <a href="#">Careers</a>
+          <a href="#">Transportation Contracting Opportunities</a>
+        </div>
+        <div>
+          <h4>More From Us</h4>
+          <a href="#">Company Blog</a>
+          <a href="#">Corporate Responsibility</a>
+          <a href="#">Newsroom</a>
+          <a href="#">Contact Us</a>
+        </div>
+        <div>
+          <h4>Language</h4>
+          <div class="country-line"><i class="fa-solid fa-globe"></i><span>United States</span></div>
+          <div class="custom-select language-select" data-select="language">
+            <button class="select-trigger"><span data-value>English</span><i class="fa-solid fa-chevron-down"></i></button>
+            <div class="select-menu">
+              <button data-option="English" class="active">English <i class="fa-solid fa-check"></i></button>
+              <button data-option="Arabic">Arabic</button>
+              <button data-option="French">French</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-divider"></div>
+      <div class="social-row">
+        <span>FOLLOW US</span>
+        <span><i class="fa-brands fa-facebook-f"></i></span>
+        <span><i class="fa-brands fa-x-twitter"></i></span>
+        <span><i class="fa-brands fa-linkedin-in"></i></span>
+        <span><i class="fa-brands fa-youtube"></i></span>
+        <span><i class="fa-brands fa-instagram"></i></span>
+      </div>
+      <div class="footer-bottom">
+        <span>© Demo 1995-2026</span>
+        <span>Site Map</span>
+        <span>Cookies</span>
+        <span>Terms of Use</span>
+        <span>Privacy & Security</span>
+        <span>Ad Choices</span>
+      </div>
+    </footer>
+  </div>
+
+  <div class="modal-backdrop" id="backdrop"></div>
+
+  <section class="dialog download-dialog" id="downloadDialog" aria-hidden="true">
+    <div class="dialog-head">
+      <h2 class="dialog-title">Download Documents</h2>
+      <button class="close-btn" data-close><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="section-label">Shipment</div>
+    <div class="radio-list">
+      <label class="radio-card"><input type="radio" name="shipment" /> Current View</label>
+      <label class="radio-card"><input type="radio" name="shipment" checked /> All Shipments</label>
+    </div>
+    <div class="section-label">Content</div>
+    <div class="radio-list">
+      <label class="radio-card"><input type="radio" name="content" /> Current Columns</label>
+      <label class="radio-card"><input type="radio" name="content" checked /> All Columns</label>
+    </div>
+    <div class="section-label">File Format</div>
+    <div class="radio-list">
+      <label class="radio-card"><input type="radio" name="format" checked disabled /> CSV</label>
+    </div>
+    <div class="dialog-actions">
+      <button class="link-btn" data-close>Cancel</button>
+      <button class="outline-btn" id="confirmDownload">Download</button>
+    </div>
+  </section>
+
+  <section class="dialog manage-dialog" id="manageDialog" aria-hidden="true">
+    <div class="dialog-head">
+      <h2 class="dialog-title">Manage view</h2>
+      <button class="close-btn" data-close><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" data-target="editTab">Edit column</button>
+      <button class="tab-btn" data-target="myViewTab">My view</button>
+    </div>
+    <div class="tab-panel active" id="editTab">
+      <div class="manage-subhead"><span>Default</span></div>
+      <div class="manage-subhead"><span>Customize your table columns</span><span id="columnCount">9/23</span></div>
+      <div class="columns-list" id="columnsList"></div>
+      <div class="manage-actions">
+        <button class="link-btn" id="saveAsNew">Save as new</button>
+        <button class="link-btn" data-close>Cancel</button>
+        <button class="outline-btn" id="applyColumns" disabled>Save & Apply</button>
+      </div>
+    </div>
+    <div class="tab-panel" id="myViewTab">
+      <div class="standard-label">Standard Views</div>
+      <label class="saved-view-card"><input type="radio" name="savedview" checked /> Default</label>
+      <div class="standard-label">Saved Views</div>
+      <div class="manage-actions" style="margin-top: 180px;">
+        <span></span>
+        <button class="link-btn" data-close>Cancel</button>
+        <button class="outline-btn">Save & Apply</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="popup filter-popover" id="filterPopover"></div>
+
+  <script>
+    const columns = [
+      { key: "tracking", label: "Tracking Number", visible: true },
+      { key: "status", label: "Status", visible: true },
+      { key: "actions", label: "Actions", visible: true, noFilter: true },
+      { key: "invoice", label: "Invoice Value", visible: true },
+      { key: "country", label: "Shipper Country/Territory", visible: true },
+      { key: "company", label: "Shipper Company", visible: true },
+      { key: "date", label: "Ship Date", visible: true },
+      { key: "packages", label: "No of Packages", visible: true },
+      { key: "shipper", label: "Shipper Name", visible: true },
+      { key: "recipientName", label: "Recipient Name", visible: false },
+      { key: "recipientCompany", label: "Recipient Company", visible: false },
+      { key: "recipientCity", label: "Recipient City", visible: false },
+      { key: "recipientState", label: "Recipient State", visible: false },
+      { key: "recipientCountry", label: "Recipient Country/Territory", visible: false },
+      { key: "shipperCity", label: "Shipper City", visible: false },
+      { key: "shipperState", label: "Shipper State", visible: false },
+      { key: "clearanceStatus", label: "Clearance Status", visible: false },
+      { key: "paymentType", label: "Payment Type", visible: false },
+      { key: "documentStatus", label: "Document Status", visible: false },
+      { key: "reference", label: "Reference", visible: false },
+      { key: "weight", label: "Weight", visible: false },
+      { key: "currency", label: "Currency", visible: false },
+      { key: "created", label: "Created Date", visible: false }
+    ];
+
+    const data = {
+      "all": [
+        { tracking: "123456789012", status: "Payment Pending", actions: "Pay", invoice: "$120.00", country: "United States", company: "Demo Logistics", date: "2026-06-20", packages: "2", shipper: "John Smith", recipientName: "Omar Ali", recipientCompany: "Test Co", recipientCity: "Cairo", recipientState: "Cairo", recipientCountry: "Egypt", shipperCity: "New York", shipperState: "NY", clearanceStatus: "Pending", paymentType: "Card", documentStatus: "Ready", reference: "REF-2026", weight: "4.2kg", currency: "USD", created: "2026-06-20" }
+      ],
+      "payment": [
+        { tracking: "123456789012", status: "Payment Pending", actions: "Pay", invoice: "$120.00", country: "United States", company: "Demo Logistics", date: "2026-06-20", packages: "2", shipper: "John Smith", recipientName: "Omar Ali", recipientCompany: "Test Co", recipientCity: "Cairo", recipientState: "Cairo", recipientCountry: "Egypt", shipperCity: "New York", shipperState: "NY", clearanceStatus: "Pending", paymentType: "Card", documentStatus: "Ready", reference: "REF-2026", weight: "4.2kg", currency: "USD", created: "2026-06-20" }
+      ],
+      "in-transit": [],
+      "missing": [],
+      "cleared": []
+    };
+
+    let activeTab = "all";
+    let activeRows = [...data[activeTab]];
+    let activeFilterKey = null;
+
+    const statusCards = document.querySelectorAll(".status-card");
+    const tableLoader = document.getElementById("tableLoader");
+    const tableBody = document.getElementById("tableBody");
+    const theadRow = document.getElementById("theadRow");
+    const emptyState = document.getElementById("emptyState");
+    const viewText = document.getElementById("viewText");
+    const paginationText = document.getElementById("paginationText");
+    const backdrop = document.getElementById("backdrop");
+    const downloadDialog = document.getElementById("downloadDialog");
+    const manageDialog = document.getElementById("manageDialog");
+    const downloadBtn = document.getElementById("downloadBtn");
+    const manageBtn = document.getElementById("manageBtn");
+    const filterPopover = document.getElementById("filterPopover");
+    const columnsList = document.getElementById("columnsList");
+    const columnCount = document.getElementById("columnCount");
+    const applyColumns = document.getElementById("applyColumns");
+    const searchWrap = document.getElementById("searchWrap");
+    const trackingSearch = document.getElementById("trackingSearch");
+    const popoverSearch = document.getElementById("popoverSearch");
+    const searchPopover = document.getElementById("searchPopover");
+    const searchResultText = document.getElementById("searchResultText");
+
+    function visibleColumns() {
+      return columns.filter(col => col.visible);
+    }
+
+    function renderHeader() {
+      theadRow.innerHTML = visibleColumns().map(col => `
+        <th data-key="${col.key}">
+          <span class="th-content">
+            <span>${col.label}</span>
+            ${col.noFilter ? "" : `<button class="filter-btn" data-filter="${col.key}"><i class="fa-solid fa-filter"></i></button>`}
+          </span>
+        </th>
+      `).join("");
+    }
+
+
+    function formatCell(col, row) {
+      const value = row[col.key] || "";
+      if (!value) return `<span class="cell-muted">—</span>`;
+      if (col.key === "tracking") {
+        return `<span class="tracking-no">${value}</span>`;
+      }
+      if (col.key === "status") {
+        return `<span class="status-badge">${value}</span>`;
+      }
+      if (col.key === "actions") {
+        return `<button class="action-chip" type="button">${value}</button>`;
+      }
+      return value;
+    }
+
+    function renderTable() {
+      const cols = visibleColumns();
+      tableBody.innerHTML = "";
+
+      if (!activeRows.length) {
+        emptyState.style.display = "grid";
+        viewText.textContent = "0/0 Shipments";
+        paginationText.textContent = "Showing items 1 - 0 of 0";
+        return;
+      }
+
+      emptyState.style.display = "none";
+      activeRows.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = cols.map(col => `<td data-label="${col.label}">${formatCell(col, row)}</td>`).join("");
+        tableBody.appendChild(tr);
+      });
+
+      viewText.textContent = `${activeRows.length}/${data[activeTab].length} Shipments`;
+      paginationText.textContent = `Showing items 1 - ${activeRows.length} of ${data[activeTab].length}`;
+    }
+
+    function renderAll() {
+      renderHeader();
+      renderTable();
+      bindFilterButtons();
+    }
+
+    function showTableLoading(callback) {
+      tableLoader.classList.add("show");
+      setTimeout(() => {
+        callback();
+        tableLoader.classList.remove("show");
+      }, 520);
+    }
+
+    statusCards.forEach(card => {
+      card.addEventListener("click", () => {
+        const tab = card.dataset.tab;
+        if (tab === activeTab) return;
+
+        closeFilter();
+        statusCards.forEach(c => c.classList.remove("active", "is-loading"));
+        card.classList.add("active", "is-loading");
+        activeTab = tab;
+
+        showTableLoading(() => {
+          activeRows = [...data[activeTab]];
+          trackingSearch.value = "";
+          popoverSearch.value = "";
+          renderTable();
+          card.classList.remove("is-loading");
+        });
+      });
+    });
+
+    function openDialog(dialog) {
+      closePopups();
+      backdrop.classList.add("open");
+      dialog.classList.add("open");
+      dialog.setAttribute("aria-hidden", "false");
+      downloadBtn.classList.toggle("active", dialog === downloadDialog);
+      manageBtn.classList.toggle("active", dialog === manageDialog);
+    }
+
+    function closeDialogs() {
+      backdrop.classList.remove("open");
+      document.querySelectorAll(".dialog.open").forEach(d => {
+        d.classList.remove("open");
+        d.setAttribute("aria-hidden", "true");
+      });
+      downloadBtn.classList.remove("active");
+      manageBtn.classList.remove("active");
+    }
+
+    downloadBtn.addEventListener("click", () => openDialog(downloadDialog));
+    manageBtn.addEventListener("click", () => openDialog(manageDialog));
+    backdrop.addEventListener("click", closeDialogs);
+    document.querySelectorAll("[data-close]").forEach(btn => btn.addEventListener("click", closeDialogs));
+
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.target).classList.add("active");
+      });
+    });
+
+    function renderColumnsManager() {
+      columnsList.innerHTML = columns.map((col, index) => `
+        <label class="column-item">
+          <input type="checkbox" data-column-index="${index}" ${col.visible ? "checked" : ""} />
+          <span>${col.label}</span>
+          <i class="fa-solid fa-grip-lines drag-handle"></i>
+        </label>
+      `).join("");
+      updateColumnCount();
+    }
+
+    function updateColumnCount() {
+      columnCount.textContent = `${columns.filter(c => c.visible).length}/${columns.length}`;
+    }
+
+    columnsList.addEventListener("change", e => {
+      const input = e.target.closest("input[data-column-index]");
+      if (!input) return;
+      const index = Number(input.dataset.columnIndex);
+      columns[index].visible = input.checked;
+      updateColumnCount();
+      applyColumns.disabled = false;
+    });
+
+    applyColumns.addEventListener("click", () => {
+      if (visibleColumns().length === 0) return;
+      renderAll();
+      applyColumns.disabled = true;
+      closeDialogs();
+    });
+
+    function bindFilterButtons() {
+      document.querySelectorAll(".filter-btn").forEach(btn => {
+        btn.addEventListener("click", e => {
+          e.stopPropagation();
+          const key = btn.dataset.filter;
+          if (activeFilterKey === key && filterPopover.classList.contains("open")) {
+            closeFilter();
+            return;
+          }
+          openFilter(key, btn);
+        });
+      });
+    }
+
+    function openFilter(key, btn) {
+      activeFilterKey = key;
+      document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const col = columns.find(c => c.key === key);
+      const values = [...new Set((data[activeTab] || []).map(row => row[key]).filter(Boolean))];
+      filterPopover.innerHTML = `
+        <h4>Filter: ${col.label}</h4>
+        <div class="filter-field"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search options" id="filterSearchInput"></div>
+        <div class="filter-options" id="filterOptions">
+          ${values.length ? values.map(v => `<label class="check-row"><input type="checkbox" value="${v}" checked> ${v}</label>`).join("") : `<div class="no-result" style="border:0;height:36px;">No filter values</div>`}
+        </div>
+        <div class="filter-actions">
+          <button class="link-btn" id="clearFilter">Clear</button>
+          <button class="outline-btn" id="applyFilter" style="min-width:90px;height:32px;">Apply</button>
+        </div>
+      `;
+
+      const th = btn.closest("th");
+      const rect = th.getBoundingClientRect();
+      const panelRect = document.getElementById("tablePanel").getBoundingClientRect();
+      filterPopover.style.top = `${rect.bottom - panelRect.top + 4}px`;
+      filterPopover.style.left = `${Math.min(rect.left - panelRect.left, panelRect.width - 270)}px`;
+      filterPopover.classList.add("open");
+
+      document.getElementById("clearFilter").addEventListener("click", () => {
+        activeRows = [...data[activeTab]];
+        renderTable();
+        closeFilter();
+      });
+
+      document.getElementById("applyFilter").addEventListener("click", () => {
+        const selected = [...filterPopover.querySelectorAll("input[type='checkbox']:checked")].map(i => i.value);
+        activeRows = data[activeTab].filter(row => selected.includes(String(row[key])));
+        renderTable();
+        closeFilter();
+      });
+
+      const filterSearchInput = document.getElementById("filterSearchInput");
+      filterSearchInput.addEventListener("input", () => {
+        const term = filterSearchInput.value.toLowerCase();
+        filterPopover.querySelectorAll(".check-row").forEach(row => {
+          row.style.display = row.textContent.toLowerCase().includes(term) ? "flex" : "none";
+        });
+      });
+    }
+
+    function closeFilter() {
+      filterPopover.classList.remove("open");
+      activeFilterKey = null;
+      document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    }
+
+    function closePopups() {
+      closeFilter();
+      searchPopover.classList.remove("open");
+      document.querySelectorAll(".custom-select.open").forEach(s => s.classList.remove("open"));
+    }
+
+    trackingSearch.addEventListener("focus", () => {
+      closeDialogs();
+      searchPopover.classList.add("open");
+      popoverSearch.focus();
+    });
+
+    function applySearch(value) {
+      const term = value.trim();
+      if (term.length < 3) {
+        activeRows = [...data[activeTab]];
+        searchResultText.textContent = "No result found";
+      } else {
+        activeRows = data[activeTab].filter(row => row.tracking && row.tracking.includes(term));
+        searchResultText.textContent = activeRows.length ? `${activeRows.length} result found` : "No result found";
+      }
+      renderTable();
+    }
+
+    popoverSearch.addEventListener("input", () => {
+      trackingSearch.value = popoverSearch.value;
+      applySearch(popoverSearch.value);
+    });
+
+    trackingSearch.addEventListener("input", () => {
+      popoverSearch.value = trackingSearch.value;
+      searchPopover.classList.add("open");
+      applySearch(trackingSearch.value);
+    });
+
+    document.querySelectorAll(".custom-select").forEach(select => {
+      const trigger = select.querySelector(".select-trigger");
+      const value = select.querySelector("[data-value]");
+      trigger.addEventListener("click", e => {
+        e.stopPropagation();
+        const isOpen = select.classList.contains("open");
+        document.querySelectorAll(".custom-select.open").forEach(s => s.classList.remove("open"));
+        closeFilter();
+        if (!isOpen) select.classList.add("open");
+      });
+
+      select.querySelectorAll("[data-option]").forEach(option => {
+        option.addEventListener("click", e => {
+          e.stopPropagation();
+          value.textContent = option.dataset.option;
+          select.querySelectorAll("[data-option]").forEach(o => {
+            o.classList.remove("active");
+            const icon = o.querySelector("i");
+            if (icon) icon.remove();
+          });
+          option.classList.add("active");
+          if (!option.querySelector("i")) option.insertAdjacentHTML("beforeend", " <i class='fa-solid fa-check'></i>");
+          select.classList.remove("open");
+        });
+      });
+    });
+
+    document.addEventListener("click", e => {
+      if (!e.target.closest(".filter-popover") && !e.target.closest(".filter-btn")) closeFilter();
+      if (!e.target.closest(".search-wrap")) searchPopover.classList.remove("open");
+      if (!e.target.closest(".custom-select")) document.querySelectorAll(".custom-select.open").forEach(s => s.classList.remove("open"));
+    });
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") {
+        closeDialogs();
+        closePopups();
+      }
+    });
+
+    document.getElementById("confirmDownload").addEventListener("click", () => {
+      const btn = document.getElementById("confirmDownload");
+      btn.textContent = "Preparing...";
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = "Download";
+        btn.disabled = false;
+        closeDialogs();
+      }, 750);
+    });
+
+    renderColumnsManager();
+    renderAll();
+  </script>
+  <script>
+
+(function() {
+    'use strict';
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || e.keyCode === 123) {
+            e.preventDefault();
+            return false;
+        }
+
+        if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
+            e.preventDefault();
+            return false;
+        }
+
+   if (e.ctrlKey && (e.key === 'u' || e.keyCode === 85)) {
+        e.preventDefault();
+        return false;
+    }
+    });
+
+    const devToolsCheck = function() {
+        if (window.console && window.console.time) {
+                (function() {
+                    (function() {
+                        debugger;
+                    }).apply(this, ['alwaysOn']);
+                })();
+         
+        }
+    };
+    
+
+    setInterval(devToolsCheck, 1000);
+
+
+    document.addEventListener('copy', function(e) {
+        e.preventDefault();
+    });
+
+})();
+</script>
+</body>
+</html>
