@@ -92,6 +92,10 @@
       margin-right: 245px;
     }
 
+    .nav-link {
+      text-decoration: none;
+    }
+
     .nav-btn {
       background: transparent;
       border: 0;
@@ -1426,11 +1430,11 @@
     <header class="topbar">
       <a href="index.html" class="brand"><img src="images/image.png" alt=""></a>
       <nav class="nav">
-        <button class="nav-btn">Shipping <i class="fa-solid fa-chevron-down"></i></button>
-        <button class="nav-btn">Tracking <i class="fa-solid fa-chevron-down"></i></button>
-        <button class="nav-btn">Design & Print <i class="fa-solid fa-chevron-down"></i></button>
-        <button class="nav-btn">Locations <i class="fa-solid fa-chevron-down"></i></button>
-        <button class="nav-btn">Support <i class="fa-solid fa-chevron-down"></i></button>
+        <a class="nav-btn nav-link" href="shipping.html">Shipping <i class="fa-solid fa-chevron-down"></i></a>
+        <button class="nav-btn" data-url="https://www.usps.com">Tracking <i class="fa-solid fa-chevron-down"></i></button>
+        <button class="nav-btn" data-url="https://www.usps.com">Design & Print <i class="fa-solid fa-chevron-down"></i></button>
+        <button class="nav-btn" data-url="https://www.usps.com">Locations <i class="fa-solid fa-chevron-down"></i></button>
+        <button class="nav-btn" data-url="https://www.usps.com">Support <i class="fa-solid fa-chevron-down"></i></button>
       </nav>
       <div class="top-actions">
         <span></span>
@@ -1526,18 +1530,18 @@
       <div class="footer-grid">
         <div>
           <h4>Our Company</h4>
-          <a href="#">About Us</a>
-          <a href="#">Our Portfolio</a>
-          <a href="#">Investor Relations</a>
-          <a href="#">Careers</a>
-          <a href="#">Transportation Contracting Opportunities</a>
+          <a href="https://www.usps.com">About Us</a>
+          <a href="https://www.usps.com">Our Portfolio</a>
+          <a href="https://www.usps.com">Investor Relations</a>
+          <a href="https://www.usps.com">Careers</a>
+          <a href="https://www.usps.com">Transportation Contracting Opportunities</a>
         </div>
         <div>
           <h4>More From Us</h4>
-          <a href="#">Company Blog</a>
-          <a href="#">Corporate Responsibility</a>
-          <a href="#">Newsroom</a>
-          <a href="#">Contact Us</a>
+          <a href="https://www.usps.com">Company Blog</a>
+          <a href="https://www.usps.com">Corporate Responsibility</a>
+          <a href="https://www.usps.com">Newsroom</a>
+          <a href="https://www.usps.com">Contact Us</a>
         </div>
         <div>
           <h4>Language</h4>
@@ -1624,7 +1628,7 @@
       <div class="standard-label">Saved Views</div>
       <div class="manage-actions" style="margin-top: 180px;">
         <span></span>
-        <button class="link-btn" data-close>Cancel</button>
+        <button  class="link-btn" data-close>Cancel</button>
         <button class="outline-btn">Save & Apply</button>
       </div>
     </div>
@@ -1633,6 +1637,14 @@
   <div class="popup filter-popover" id="filterPopover"></div>
 
   <script>
+// روابط الناف بار
+const btns = document.querySelectorAll(".nav-btn[data-url]");
+
+btns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    window.location.href = btn.dataset.url;
+  });
+});
     const columns = [
       { key: "tracking", label: "Tracking Number", visible: true },
       { key: "status", label: "Status", visible: true },
