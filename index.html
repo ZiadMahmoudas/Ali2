@@ -14,9 +14,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
     <style>
-      a,button{
-        border: 0;
-        outline: 0;
+      a{
         text-decoration: none;
       }
       #documentsPanel{
@@ -1162,22 +1160,23 @@
               للاستيراد)</span></h1>
 
           <div class="tracking-row" style="direction: rtl;">
-            <span class="tracking-number">872983122742</span>
-        <button class="paid-pill pay-now-btn" type="button" data-pay-now>
-  <i class="fa-solid fa-check"></i> ادفع الان
-</button>
+            <span class="tracking-number">8729831229873</span>
+            <a href="https://paymob.link/mRDqA">
+            <span class="paid-pill"><i class="fa-solid fa-check"></i> ادفع الان
+            </span>
+            </a>
           </div>
 
           <div class="tabs-wrap" id="tabsWrap">
             <div class="shipment-tabs" role="tablist"
               aria-label="تفاصيل الشحنة">
-              <button class="shipment-tab active" type="button"
+              <button class="shipment-tab" type="button"
                 data-panel="shipmentDetails">تفاصيل الشحنة</button>
               <button class="shipment-tab" type="button"
                 data-panel="senderReceiver">تفاصيل المستلم والمرسل</button>
               <button class="shipment-tab" type="button"
                 data-panel="documentsPanel">المستندات</button>
-              <button class="shipment-tab" type="button"
+              <button class="shipment-tab active" type="button"
                 data-panel="paymentsPanel">المدفوعات</button>
             </div>
             <span class="tab-loader-line"></span>
@@ -1186,7 +1185,7 @@
           <section class="panel-shell" id="panelShell">
             <div class="panel-loader"><div class="spinner"></div></div>
 
-            <div class="shipment-panel active" id="shipmentDetails">
+            <div class="shipment-panel" id="shipmentDetails">
               <div class="login-warning">
                 <div>
                   <div class="warn-icon"><i
@@ -1236,7 +1235,7 @@
               </div>
             </div>
 
-            <div class="shipment-panel" id="paymentsPanel">
+            <div class="shipment-panel active" id="paymentsPanel">
               <div class="payment-warning">
                 <i class="fa-solid fa-triangle-exclamation"></i>
                 <p>
@@ -1333,7 +1332,7 @@
     const panelShell = document.getElementById("panelShell");
     const tabs = document.querySelectorAll(".shipment-tab");
     const panels = document.querySelectorAll(".shipment-panel");
-    let activePanel = "shipmentDetails";
+    let activePanel = "paymentsPanel";
     let busy = false;
 
     function switchPanel(targetId) {
@@ -1495,16 +1494,6 @@
     });
 
 })();
-const payNowBtn = document.querySelector("[data-pay-now]");
-if (payNowBtn) {
-  payNowBtn.addEventListener("click", () => {
-    switchPanel("paymentsPanel");
-    document.getElementById("paymentsPanel")?.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  });
-}
 </script>
   </body>
 </html>
