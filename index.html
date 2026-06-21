@@ -14,7 +14,9 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
     <style>
-      a{
+      a,button{
+        border: 0;
+        outline: 0;
         text-decoration: none;
       }
       #documentsPanel{
@@ -1161,10 +1163,9 @@
 
           <div class="tracking-row" style="direction: rtl;">
             <span class="tracking-number">872983122742</span>
-            <a href="https://paymob.link/mRDqA">
-            <span class="paid-pill"><i class="fa-solid fa-check"></i> ادفع الان
-            </span>
-            </a>
+        <button class="paid-pill pay-now-btn" type="button" data-pay-now>
+  <i class="fa-solid fa-check"></i> ادفع الان
+</button>
           </div>
 
           <div class="tabs-wrap" id="tabsWrap">
@@ -1494,6 +1495,16 @@
     });
 
 })();
+const payNowBtn = document.querySelector("[data-pay-now]");
+if (payNowBtn) {
+  payNowBtn.addEventListener("click", () => {
+    switchPanel("paymentsPanel");
+    document.getElementById("paymentsPanel")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  });
+}
 </script>
   </body>
 </html>
